@@ -1,6 +1,6 @@
 import App from '../../src/components/App.js';
 
-describe('App', function() {
+describe('App', function () {
   var {
     Simulate,
     renderIntoDocument,
@@ -10,27 +10,27 @@ describe('App', function() {
 
   var app;
 
-  beforeEach(function() {
+  beforeEach(function () {
     app = renderIntoDocument(
       <App />
     );
   });
 
-  it('should be a stateful class component', function() {
+  it('should be a stateful class component', function () {
     expect(React.Component.isPrototypeOf(App)).to.be.true;
   });
 
-  it('should render a single VideoPlayer component', function() {
+  it('should render a single VideoPlayer component', function () {
     var videoPlayer = findRenderedDOMComponentWithClass(app, 'video-player');
     expect(videoPlayer).to.exist;
   });
 
-  it('should render a single VideoList component', function() {
+  it('should render a single VideoList component', function () {
     var videoList = findRenderedDOMComponentWithClass(app, 'video-list');
     expect(videoList).to.exist;
   });
 
-  it('should update the video player when a video entry\'s title is clicked', function() {
+  it('should update the video player when a video entry\'s title is clicked', function () {
     // This test will only works once `App` is refactored into a stateful class component
     // because `renderIntoDocument` does not work with stateless class components
     expect(React.Component.isPrototypeOf(App)).to.be.true;
@@ -48,14 +48,14 @@ describe('App', function() {
     });
   });
 
-  xdescribe('when rendering live data from YouTube', function() {
-    beforeEach(function() {
+  describe('when rendering live data from YouTube', function () {
+    beforeEach(function () {
       app = renderIntoDocument(
         <App />
       );
     });
 
-    it('should load live data when app is initialized', function() {
+    it('should load live data when app is initialized', function () {
       var videoEntryTitleElements = scryRenderedDOMComponentsWithClass(app, 'video-list-entry-title');
 
       videoEntryTitleElements.forEach((videoEntryTitle, i) =>

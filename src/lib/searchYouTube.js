@@ -6,6 +6,20 @@ $.ajaxPrefilter(function (settings, _, jqXHR) {
 
 var searchYouTube = (query, callback) => {
   // TODO
+  $.ajax({
+    url: 'https://app-hrsei-api.herokuapp.com/api/recastly/videos',
+    data: {
+      q: query,
+      // youtube_api_key: YOUTUBE_API_KEY
+    },
+    type: 'GET',
+    success: callback || function (data) {
+      console.log(data);
+    },
+    error: function (error) {
+      console.error('YouTube API: Failed to fetch videos', error);
+    }
+  });
 };
 
 export default searchYouTube;

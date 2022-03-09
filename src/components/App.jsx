@@ -2,6 +2,7 @@ import Search from './Search.js';
 import VideoPlayer from './VideoPlayer.js';
 import VideoList from './VideoList.js';
 import exampleVideoData from '../data/exampleVideoData.js';
+import searchYouTube from '../lib/searchYouTube.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,22 +10,52 @@ class App extends React.Component {
 
     this.state = {
       currVideo: exampleVideoData[0],
-      videoList: exampleVideoData
+      videoList: exampleVideoData,
+      isLoaded: false,
+      search: ''
     };
   }
 
-  handleClick() {
-    this.setState({
-      currVideo: this.video
+  componentDidMount() {
+    searchYouTube(this.state.search, (data) => {
+      this.setState({
+        currVideo: data[0],
+        videoList: data,
+        isLoaded: true
+      });
     });
   }
 
+  handleClick(props) {
+    this.setState({
+      currVideo: props.video
+    });
+  }
+
+  handleChange(event) {
+    this.setState({
+      search: event.target.value
+    });
+
+    setTimeout(searchYouTube(this.state.search, (data) => {
+      this.setState({
+        currVideo: data[0],
+        videoList: data,
+        isLoaded: true
+      });
+    }), 1000);
+  }
+
   render() {
+    if (!this.state.isLoaded) {
+      return (<div className="video-player video-list form-control">Cute cat videos not loaded yet!</div>);
+    }
+
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search />
+            <Search onchange={this.handleChange.bind(this)} />
           </div>
         </nav>
         <div className="row">
@@ -32,7 +63,7 @@ class App extends React.Component {
             <VideoPlayer video={this.state.currVideo} />
           </div>
           <div className="col-md-5">
-            <VideoList videos={exampleVideoData} click={this.handleClick} />
+            <VideoList videos={this.state.videoList} click={this.handleClick.bind(this)} />
           </div>
         </div>
       </div>

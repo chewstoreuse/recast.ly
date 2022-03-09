@@ -2,8 +2,8 @@ import VideoListEntry from './VideoListEntry.js';
 
 var VideoList = (props) => (
   <div className="video-list">
-    {props.videos.map((video) =>
-      <VideoListEntry video={video} click={props.click} />
+    {props.videos.map((video, i) =>
+      <VideoListEntry video={video} key={i} click={props.click} />
     )}
   </div>
 );
